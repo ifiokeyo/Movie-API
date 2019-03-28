@@ -9,19 +9,17 @@ Development setup
 
 - Clone this repo and navigate into the project's directory
 
-  .. code-block:: 
-  
-  console
+  ```console
 
      $ git clone https://github.com/ifiokeyo/Movie-API && cd movieapi
+  ```
 
 - Create a ``python3`` virtual environment for the project and activate it.
 
   - To install ``python3`` on OSX you can
-    `follow this <http://python-guide-pt-br.readthedocs.io/en/latest/starting/install3/osx/>`_
+    follow this ``http://python-guide-pt-br.readthedocs.io/en/latest/starting/install3/osx/``
 
-  - To install the virtual environment wrapper ``mkvirtualenv`` you can
-    `follow this <https://jamie.curle.io/installing-pip-virtualenv-and-virtualenvwrapper-on-os-x>`_.
+  - Install the virtual environment wrapper ``mkvirtualenv``.
 
   ```console
 
@@ -30,7 +28,7 @@ Development setup
 
 - Install the project's requirements
 
-  ```console 
+  ```console
 
      $ pip install -r requirements.txt
   ```
@@ -46,8 +44,10 @@ Development setup
      $ python server/manage.py
   ```
 
+  - The app should now be available from your browser at ``http://127.0.0.1:9000``
+
 - Run tests:
-  
+
   ```console
   
      $ cd server/test
@@ -55,8 +55,24 @@ Development setup
      $ python -m unittest
   ```
 
+- Endpoints:
 
-- The app should now be available from your browser at ``http://127.0.0.1:9000``
+  - To get all movies ``GET http://127.0.0.1:9000/api/v1/movies``.
+
+  - To get a movie using its `id` ``GET http://127.0.0.1:9000/api/v1/movies/<movie_id>``.
+
+  - To search using movie `name` only : ``GET http://127.0.0.1:9000/api/v1/movies?name=<movie_name>``.
+
+  - To search using movie `name` and `genre` only : ``GET http://127.0.0.1:9000/api/v1/movies?name=<movie_name>&genre=<genre>``.
+
+  - To search using movie `name`, `showing_time`, and `genre` :  ``GET http://127.0.0.1:9000/api/v1/movies?name=<movie_name>&genre=<genre>&showing_time=<showing_time>``.
+
+  - To search using movie `showing_time`, and `genre` :  ``GET http://127.0.0.1:9000/api/v1/movies?genre=<genre>&showing_time=<showing_time>``.
+
+  - To search using movie `showing_time` only:  ``GET http://127.0.0.1:9000/api/v1/movies?showing_time=<showing_time>``.
+
+   - To search using movie `genre` only :  ``GET http://127.0.0.1:9000/api/v1/movies?genre=<genre>``.
+
+
 
 - To send the API requests on Postman, you can click `follow this <https://www.getpostman.com/docs/postman/sending_api_requests/requests>`_.
-

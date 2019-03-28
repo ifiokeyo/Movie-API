@@ -2,8 +2,9 @@ import os
 from flask_restful import Resource
 from flask import request
 from flask import jsonify
-from utils.utils import json_reader, get_movie_by_index
+from utils.utils import json_reader, get_movie_by_index, build_movie_hash_table
 from utils.trie import Trie
+from utils.search import MovieNameStrategy, GenreStrategy, ShowingTimeStrategy, SearchMovie
 
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -15,6 +16,8 @@ trie = Trie()
 
 Trie.build_movie_trie(trie, movies)
 
+movie_hash_table = build_movie_hash_table(movies)
+
 
 
 class MovieListResource(Resource):
@@ -24,38 +27,34 @@ class MovieListResource(Resource):
 		name = request.args.get('name')
 		showing_time = request.args.get('showing_time')
 
+		data_obj = {
+			'name': name,
+			'genre': genre,
+			'showing_time': showing_time
+		}
+
+		if name is None and genre is None and showing_time is None:
+			result = movies
+
 		if name is not None:
-			search_matches = map(lambda match: trie.retrieve_movie_object(match), trie.start_with_prefix(name.lower()))
+			movie_name_strategy = MovieNameStrategy()
+			search_handler = SearchMovie(movie_name_strategy)
+			result = search_handler.search_movie(trie, **data_obj)
 
-			if genre:
-				search_matches = filter(
-					lambda match: match['genre'].lower().replace(' ', '') == genre.lower().replace(' ', ''),
-					search_matches
-				)
+		if name is None and genre is not None:
+			movie_genre_strategy = GenreStrategy()
+			search_handler = SearchMovie(movie_genre_strategy)
+			result = search_handler.search_movie(movie_hash_table, **data_obj)
 
-			if showing_time:
-				search_matches = filter(
-					lambda match: match['showing_time'].lower().replace(' ', '') == showing_time.lower().replace(' ', ''),
-					search_matches
-				)
+		if name is None and genre is None and showing_time is not None:
+			showing_time_strategy = ShowingTimeStrategy()
+			search_handler = SearchMovie(showing_time_strategy)
+			result = search_handler.search_movie( movie_hash_table, **data_obj)
 
-			result = list(search_matches)
-
-
-			if not result:
-				result = []
-
-			result = result if len(result) > 1 else result[0]
-
-			response = jsonify(dict(
-				status='success',
-				movies=result
-			))
-		else:
-			response = jsonify(dict(
-				status='success',
-				movies=movies
-			))
+		response = jsonify(dict(
+			status='success',
+			movies=result
+		))
 
 		response.status_code = 200
 		return response
