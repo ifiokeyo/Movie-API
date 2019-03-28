@@ -1,0 +1,17 @@
+.env
+.idea/
+/server/api/.DS_Store
+/server/.DS_Store
+/server/mockData/.DS_Store
+/server/mockData/.DS_Store
+/server/utils/.DS_Store
+/server/utils/__pycache__
+/server/__pycache__
+/server/api/__pycache__
+/server/mockData/__pycache__
+/server/test/__pycache__
+*.pyc
+*.pyo
+/.DS_Store
+.DS_Store
+/__pycache__
