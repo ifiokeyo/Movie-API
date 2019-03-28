@@ -9,7 +9,9 @@ Development setup
 
 - Clone this repo and navigate into the project's directory
 
-  .. code-block:: console
+  .. code-block:: 
+  
+  console
 
      $ git clone https://github.com/ifiokeyo/Movie-API && cd movieapi
 
@@ -21,16 +23,17 @@ Development setup
   - To install the virtual environment wrapper ``mkvirtualenv`` you can
     `follow this <https://jamie.curle.io/installing-pip-virtualenv-and-virtualenvwrapper-on-os-x>`_.
 
-  .. code-block:: console
+  ```console
 
      $ mkvirtualenv --py=python3 movieapi
+  ```
 
 - Install the project's requirements
 
-  .. code-block:: console
+  ```console 
 
      $ pip install -r requirements.txt
-
+  ```
 
 - Copy ``.env_sample`` into ``.env`` which is inside the base folder of the project.
   You should adjust it according to your own local settings.
@@ -38,16 +41,19 @@ Development setup
 
 - Run the app: Inside the root directory
 
-  .. code-block:: console
+  ```console
 
      $ python server/manage.py
+  ```
 
 - Run tests:
-
-  .. code-block:: console
+  
+  ```console
+  
      $ cd server/test
 
      $ python -m unittest
+  ```
 
 
 - The app should now be available from your browser at ``http://127.0.0.1:9000``
